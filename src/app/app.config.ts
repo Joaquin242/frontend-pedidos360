@@ -23,8 +23,8 @@ import {
 export function MSALInstanceFactory(): IPublicClientApplication {
   return new PublicClientApplication({
     auth: {
-      clientId: 'TU_CLIENT_ID_AQUI', 
-      authority: 'https://login.microsoftonline.com/TU_TENANT_ID_AQUI', 
+      clientId: '70a98cd7-3e6e-4e11-a209-d0ae414fb4db', 
+      authority: 'https://login.microsoftonline.com/015cad58-1396-4898-9f0a-4cb1e1191c38', 
       redirectUri: 'http://localhost:4200'
     },
     cache: {
@@ -35,7 +35,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
 
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
-  protectedResourceMap.set('http://localhost:8080/', ['api://TU_CLIENT_ID_AQUI/access_as_user']);
+  protectedResourceMap.set('http://localhost:8080/', ['api://70a98cd7-3e6e-4e11-a209-d0ae414fb4db/access_as_user']);
 
   return {
     interactionType: InteractionType.Redirect,
