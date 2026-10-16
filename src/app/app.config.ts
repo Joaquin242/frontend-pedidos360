@@ -37,10 +37,9 @@ export function MSALInstanceFactory(): IPublicClientApplication {
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
   
-  // MSAL verifica si la URL de la petición EMPIEZA con este texto. 
-  // No uses asteriscos (*), eso rompe el interceptor en las versiones nuevas.
-  protectedResourceMap.set('http://localhost:8081/api/', [API_SCOPE]);
-  protectedResourceMap.set('http://localhost:8081', [API_SCOPE]);
+  // OJO: el interceptor compara la URL completa y exacta. Sin el /* al final
+  // NO adjunta el token (por eso daba 401). API_URL es el BFF (puerto 8081).
+  protectedResourceMap.set(`${API_URL}/api/*`, [API_SCOPE]);
 
   return {
     interactionType: InteractionType.Redirect,
