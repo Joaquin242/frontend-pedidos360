@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
+import { API_SCOPE } from '../config';
 import { Pedido, PedidosService } from '../services/pedidos.service';
 
 @Component({
@@ -14,15 +15,28 @@ export class Pedidos implements OnInit {
   pedidos: Pedido[] = [];
   error = '';
   roles: string[] = [];
+  scopes: string[] = [];
 
   get esAdmin(): boolean {
     return this.roles.includes('Admin');
   }
 
   ngOnInit(): void {
-    // roles que vienen en los claims del token
-    const claims = this.auth.instance.getActiveAccount()?.idTokenClaims as { roles?: string[] } | undefined;
+    const instance = this.auth.instance;
+    const cuenta = instance.getActiveAccount() ?? instance.getAllAccounts()[0];
+
+    // roles: vienen en los claims del token del usuario
+    const claims = cuenta?.idTokenClaims as { roles?: string[] } | undefined;
     this.roles = claims?.roles ?? [];
+
+    // scopes: vienen en el access token que se usa para llamar a la API
+    if (cuenta) {
+      this.auth.acquireTokenSilent({ scopes: [API_SCOPE], account: cuenta }).subscribe({
+        next: (r) => (this.scopes = r.scopes.map((s) => s.split('/').pop() ?? s)),
+        error: () => (this.scopes = [])
+      });
+    }
+
     this.cargar();
   }
 
