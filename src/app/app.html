@@ -1,23 +1,26 @@
-<div style="text-align: center; margin-top: 50px; font-family: sans-serif;">
-  <h1>Sistema Pedidos360</h1>
-  
-  <div *ngIf="!loginDisplay">
-    <p>Por favor, inicia sesión con tu cuenta institucional para continuar.</p>
-    <button (click)="login()" style="padding: 10px 20px; font-size: 16px;">Iniciar Sesión</button>
-  </div>
+<header class="barra">
+  <h1 class="logo">Pedidos<span>360</span></h1>
 
-  <div *ngIf="loginDisplay">
-    <p>¡Autenticación exitosa!</p>
-    
-    <div style="margin: 20px auto; padding: 20px; max-width: 500px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
-      <h3>Prueba de Conexión Segura</h3>
-      <p>Haz clic para pedirle datos al backend enviando tu token de Azure AD.</p>
-      <button (click)="llamarBackend()" style="padding: 10px 20px; font-size: 16px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">
-        Consultar Backend
-      </button>
-      <p style="margin-top: 15px; font-weight: bold; color: #0056b3;">{{ apiResponse }}</p>
-    </div>
+  <nav>
+    <a routerLink="/" routerLinkActive="activo" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
+    @if (loginDisplay) {
+      <a routerLink="/pedidos" routerLinkActive="activo">Pedidos</a>
+    }
+  </nav>
 
-    <button (click)="logout()" style="padding: 10px 20px; font-size: 16px; background-color: #f44336; color: white; border: none; cursor: pointer;">Cerrar Sesión</button>
+  <div class="sesion">
+    @if (!loginDisplay) {
+      <button (click)="login()">Iniciar sesión</button>
+    } @else {
+      <div class="usuario">
+        <div class="avatar">{{ usuario.charAt(0).toUpperCase() }}</div>
+        <span>{{ usuario }}</span>
+      </div>
+      <button (click)="logout()">Cerrar sesión</button>
+    }
   </div>
-</div>
+</header>
+
+<main>
+  <router-outlet />
+</main>
