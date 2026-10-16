@@ -1,6 +1,6 @@
 // Cambiar apiUrl por la URL del API Gateway cuando este desplegado
 // (ej: https://xxxx.execute-api.us-east-1.amazonaws.com/prod)
-export const API_URL = 'http://localhost:8080';
+export const API_URL = 'http://localhost:8081';
 
 export const CLIENT_ID = '70a98cd7-3e6e-4e11-a209-d0ae414fb4db';
 export const TENANT_ID = '015cad58-1396-4898-9f0a-4cb1e1191c38';

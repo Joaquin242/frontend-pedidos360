@@ -37,10 +37,10 @@ export function MSALInstanceFactory(): IPublicClientApplication {
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
   
-  // El comodín /* asegura que atrape /api/test, /api/pedidos y cualquier otra
-  protectedResourceMap.set('http://localhost:8080/*', [API_SCOPE]);
-  protectedResourceMap.set('http://localhost:8080/api/*', [API_SCOPE]);
-  protectedResourceMap.set(API_URL + '/*', [API_SCOPE]);
+  // MSAL verifica si la URL de la petición EMPIEZA con este texto. 
+  // No uses asteriscos (*), eso rompe el interceptor en las versiones nuevas.
+  protectedResourceMap.set('http://localhost:8081/api/', [API_SCOPE]);
+  protectedResourceMap.set('http://localhost:8081', [API_SCOPE]);
 
   return {
     interactionType: InteractionType.Redirect,
